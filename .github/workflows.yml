@@ -1,0 +1,30 @@
+name: Documentation Deployment
+
+on:
+  push:
+    branches:
+      - develop
+      - main
+
+jobs:
+  deploy-dev:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: Dev
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Documentation to Dev
+        run: echo "Deploying documentation to Dev"
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: Production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy Documentation to Production
+        run: echo "Deploying documentation to Production"
