@@ -3,14 +3,11 @@ name: Documentation Deployment
 on:
   push:
     branches:
-      - Development
-      - Beta
       - main
+  workflow_dispatch:
 
 jobs:
-
   deploy-dev:
-    if: github.ref == 'refs/heads/Development'
     runs-on: ubuntu-latest
     environment: Dev
 
@@ -18,10 +15,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to Dev
-        run: echo "Deploying documentation to Dev"
+        run: |
+          echo "Deploying documentation to Dev"
 
   deploy-beta:
-    if: github.ref == 'refs/heads/Beta'
+    needs: deploy-dev
     runs-on: ubuntu-latest
     environment: Beta
 
@@ -29,10 +27,11 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to Beta
-        run: echo "Deploying documentation to Beta"
+        run: |
+          echo "Deploying documentation to Beta"
 
   deploy-production:
-    if: github.ref == 'refs/heads/main'
+    needs: deploy-beta
     runs-on: ubuntu-latest
     environment: Production
 
@@ -40,4 +39,5 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Deploy to Production
-        run: echo "Deploying documentation to Production"
+        run: |
+          echo "Deploying documentation to Production"
